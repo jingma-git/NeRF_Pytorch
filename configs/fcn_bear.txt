@@ -1,0 +1,9 @@
+expname = fcn_bear
+basedir = ./logs
+datadir = ./data/nerf_synthetic/bear
+dataset_type = blender
+batch_size = 1
+num_workers = 0
+num_epoch = 1000
+i_print = 100
+val_epoch = 5

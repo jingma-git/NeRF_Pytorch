@@ -1,0 +1,10 @@
+expname = mlp_bear_embed2
+basedir = ./logs
+datadir = ./data/nerf_synthetic/bear
+dataset_type = blender
+batch_size = 1
+num_workers = 0
+num_epoch = 100
+i_print = 100
+val_epoch = 5
+embedding_strategy = 'embed2'
