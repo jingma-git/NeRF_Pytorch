@@ -1,6 +1,6 @@
 from config import log_config
 from utils import setup_runtime
-from mlp import MLPRunner
+from mlp_batch import MLPRunner
 
 
 def config_parser():

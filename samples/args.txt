@@ -1,0 +1,16 @@
+basedir = ./logs
+batch_size = 1
+checkpoint = None
+config = configs/mlp_bear.txt
+datadir = ./data/nerf_synthetic/easytoy
+dataset_type = blender
+expname = mlp_bear_batch
+i_print = 100
+lr = 0.0001
+multires = 10
+multires_views = 4
+num_epoch = 100
+num_workers = 0
+seed = 0
+testskip = 8
+val_epoch = 5

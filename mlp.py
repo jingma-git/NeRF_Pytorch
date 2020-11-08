@@ -144,7 +144,6 @@ class MLPRunner(object):
         self.mapping_size = 256
         self.iters = 2000
         self.lr = 1e-4
-        self.embedding_strategy = args.embedding_strategy
 
         self.train_set = BlenderDataset(args.datadir, split='train')
 
@@ -158,23 +157,13 @@ class MLPRunner(object):
             x_proj = (2. * np.pi * x).matmul(B.transpose(1, 0))
             return torch.cat([torch.sin(x_proj), torch.cos(x_proj)], -1)
 
-    def embed2(self, x, B):
-        if B is None:
-            return x
-        else:
-            x_proj = (2. * np.pi * x).matmul(B.transpose(1, 0))
-            return x_proj
-
     def train(self):
         B_dict = {}
         B_dict['none'] = None
-        B_dict['basic'] = torch.eye(2).to(device)
-        if self.embedding_strategy == 'embed':
-            B_gauss = torch.randn((self.mapping_size, 2)).to(device)
-            scales = [1, 10, 100]
-        else:
-            B_gauss = torch.randn((self.mapping_size*2, 2)).to(device)
-            scales = [1]
+        B_dict['basic'] = torch.eye(2).to(device) # wrap the cooridnates into a circle, make it shift-invariant
+        B_gauss = torch.randn((self.mapping_size, 2)).to(device)
+        scales = [1, 10, 100]
+
 
         for scale in scales:
             B_dict[f'guass_{scale}'] = B_gauss * scale
@@ -186,10 +175,7 @@ class MLPRunner(object):
         sh = img.shape
 
         for k in B_dict:
-            if self.embedding_strategy == 'embed':
-                embedding = self.embed(rays_o, B_dict[k])
-            else:
-                embedding = self.embed2(rays_o, B_dict[k])
+            embedding = self.embed(rays_o, B_dict[k])
 
             embedding = embedding.reshape((-1, embedding.shape[-1]))
             in_ch = embedding.shape[-1]

@@ -44,8 +44,21 @@ def get_coords2d(H, W):
     coords = np.stack(np.meshgrid(coord, coord), -1)
     print(coords)
 
+def readGIF(path):
+    import gif2numpy
+    np_imgs, extensions, img_specs = gif2numpy.convert(path)
+    return np_imgs[0]
+
+def testFFT():
+    import cv2
+    img = readGIF("./data/stp2.gif")
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    print(img.shape)
+    print(img)
+
 if __name__ == "__main__":
     # testEmbedder()
     # testPSNR()
     # testFCN()
     get_coords2d(5, 5)
+    # testFFT()
